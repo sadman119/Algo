@@ -7,9 +7,9 @@ int totalWays(vector<int>& coins, int amount) {
     vector<int> dp(amount + 1, 0);
     dp[0] = 1; // Base case: one way to make amount 0
 
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            dp[i] += dp[i - coin];
+    for (int c = 0; c < coins.size(); c++) { // Iterate over each coin
+        for (int i = coins[c]; i <= amount; i++) { // Iterate over possible amounts
+            dp[i] += dp[i - coins[c]];
         }
     }
     return dp[amount];
