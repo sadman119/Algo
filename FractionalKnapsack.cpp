@@ -3,33 +3,45 @@
 #include <algorithm>
 using namespace std;
 
-// Item structure
-struct Item {
-    int value, weight;
-};
-
 // Function for Fractional Knapsack
-double fractionalKnapsack(vector<Item>& items, int W) {
-    sort(items.begin(), items.end(), [](Item a, Item b) {
-        return (double)a.value / a.weight > (double)b.value / b.weight;
+double fractionalKnapsack(vector<int>& values, vector<int>& weights, int W) {
+    int n = values.size();
+    vector<pair<double, int>> valuePerWeight(n);
+
+    // Calculate value-to-weight ratio for each item
+    for (int i = 0; i < n; ++i) {
+        valuePerWeight[i] = {(double)values[i] / weights[i], i};
+    }
+
+    // Sort items by value-to-weight ratio in descending order
+    sort(valuePerWeight.begin(), valuePerWeight.end(), [](pair<double, int> a, pair<double, int> b) {
+        return a.first > b.first;
     });
 
     double maxValue = 0.0;
-    for (auto& item : items) {
-        if (W >= item.weight) {
-            W -= item.weight;
-            maxValue += item.value;
+
+    // Iterate through items using a normal for loop
+    for (int i = 0; i < n; ++i) {
+        int idx = valuePerWeight[i].second;
+        if (W >= weights[idx]) {
+            W -= weights[idx];
+            maxValue += values[idx];
         } else {
-            maxValue += (double)item.value * W / item.weight;
+            maxValue += (double)values[idx] * W / weights[idx];
             break;
         }
     }
+
     return maxValue;
 }
 
 int main() {
-    vector<Item> items = {{60, 10}, {100, 20}, {120, 30}};
+    // Arrays for values and weights
+    vector<int> values = {60, 100, 120};
+    vector<int> weights = {10, 20, 30};
     int W = 50;
-    cout << "Maximum value: " << fractionalKnapsack(items, W) << endl;
+
+    // Call the function and output the result
+    cout << "Maximum value: " << fractionalKnapsack(values, weights, W) << endl;
     return 0;
 }
