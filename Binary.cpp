@@ -1,11 +1,9 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+#include <stdio.h>
 
 // Function for Binary Search
-int binarySearch(const vector<int>& arr, int low, int high, int target) {
+int binarySearch(const int arr[], int low, int high, int target) {
     while (low <= high) {
-        int mid = low + (high - low) / 2; // Avoids overflow
+        int mid = low + (high - low) / 2; // Avoid overflow
         if (arr[mid] == target)
             return mid; // Target found
         else if (arr[mid] < target)
@@ -17,12 +15,32 @@ int binarySearch(const vector<int>& arr, int low, int high, int target) {
 }
 
 int main() {
-    vector<int> arr = {2, 4, 6, 8, 10, 12};
-    int target = 8;
-    int result = binarySearch(arr, 0, arr.size() - 1, target);
+    int n, target;
+
+    // Input array size
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n]; // Declare array
+
+    // Input array elements
+    printf("Enter %d sorted elements: ", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Input the target element to search
+    printf("Enter the target element: ");
+    scanf("%d", &target);
+
+    // Perform binary search
+    int result = binarySearch(arr, 0, n - 1, target);
+
+    // Output the result
     if (result != -1)
-        cout << "Element found at index " << result << endl;
+        printf("Element found at index %d\n", result);
     else
-        cout << "Element not found" << endl;
+        printf("Element not found\n");
+
     return 0;
 }
