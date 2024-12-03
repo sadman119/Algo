@@ -2,22 +2,35 @@
 #include <vector>
 using namespace std;
 
-// Function to calculate the total number of ways to make change
-int totalWays(vector<int>& coins, int amount) {
-    vector<int> dp(amount + 1, 0);
-    dp[0] = 1; // Base case: one way to make amount 0
+int totalWays(vector<int>& coins, int target) {
+    // Create a DP array initialized with 0
+    vector<int> dp(target + 1, 0);
 
-    for (int c = 0; c < coins.size(); c++) { // Iterate over each coin
-        for (int i = coins[c]; i <= amount; i++) { // Iterate over possible amounts
-            dp[i] += dp[i - coins[c]];
+    // Base case: There's one way to make target 0 (using no coins)
+    dp[0] = 1;
+
+    // Iterate over each coin using a normal for loop
+    for (int i = 0; i < coins.size(); ++i) {
+        int coin = coins[i]; // Current coin
+        // Update DP table for every value >= coin
+        for (int j = coin; j <= target; ++j) {
+            dp[j] += dp[j - coin];
         }
     }
-    return dp[amount];
+
+    return dp[target];
 }
 
 int main() {
-    vector<int> coins = {1, 2, 5};
-    int amount = 5;
-    cout << "Total number of ways to make change: " << totalWays(coins, amount) << endl;
+    // Input: Array of coins and target value
+    vector<int> coins = {1, 2, 3}; // Example coin denominations
+    int target = 4;               // Target sum
+
+    // Calculate the total number of ways
+    int result = totalWays(coins, target);
+
+    // Output the result
+    cout << "Total number of ways to make " << target << ": " << result << endl;
+
     return 0;
 }
