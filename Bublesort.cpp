@@ -16,7 +16,8 @@ int main() {
     vector<int> arr = {5, 1, 4, 2, 8};
     bubbleSort(arr);
     cout << "Sorted array: ";
-    for (int num : arr)
-        cout << num << " ";
+    for (size_t i = 0; i < arr.size(); ++i)
+    cout << arr[i] << " ";
+
     return 0;
 }
